@@ -1,9 +1,10 @@
 using Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace sfm.Infra.Configuration
 {
-    public class ECommerceContext : DbContext
+    public class ECommerceContext : IdentityDbContext
     {
         public ECommerceContext(DbContextOptions<ECommerceContext> options) : base(options) { }
 
