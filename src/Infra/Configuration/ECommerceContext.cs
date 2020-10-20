@@ -9,6 +9,7 @@ namespace sfm.Infra.Configuration
         public ECommerceContext(DbContextOptions<ECommerceContext> options) : base(options) { }
 
         public DbSet<Product> Products { set; get; }
+        public DbSet<PurchaseUser> PurchasesUser { set; get; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

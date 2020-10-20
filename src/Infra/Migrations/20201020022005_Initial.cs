@@ -39,25 +39,21 @@ namespace Infra.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    cpf = table.Column<string>(maxLength: 11, nullable: true),
+                    age = table.Column<int>(nullable: false),
+                    name = table.Column<string>(maxLength: 100, nullable: true),
+                    postalCode = table.Column<string>(maxLength: 8, nullable: true),
+                    address = table.Column<string>(maxLength: 100, nullable: true),
+                    complement = table.Column<string>(maxLength: 100, nullable: true),
+                    cellPhone = table.Column<string>(maxLength: 20, nullable: true),
+                    phone = table.Column<string>(maxLength: 20, nullable: true),
+                    state = table.Column<bool>(nullable: false),
+                    type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "product",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(nullable: false),
-                    name = table.Column<string>(nullable: true),
-                    value = table.Column<decimal>(nullable: false),
-                    state = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_product", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,6 +162,59 @@ namespace Infra.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "product",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    name = table.Column<string>(maxLength: 255, nullable: true),
+                    description = table.Column<string>(maxLength: 150, nullable: true),
+                    observation = table.Column<string>(maxLength: 2000, nullable: true),
+                    value = table.Column<decimal>(nullable: false),
+                    stockQuantity = table.Column<int>(nullable: false),
+                    state = table.Column<bool>(nullable: false),
+                    dateRegister = table.Column<DateTime>(nullable: false),
+                    changeDate = table.Column<DateTime>(nullable: false),
+                    userId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_product", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_product_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "purchaseUser",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    purchaseStatus = table.Column<int>(nullable: false),
+                    purchaseAmount = table.Column<int>(nullable: false),
+                    productId = table.Column<Guid>(nullable: false),
+                    userId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_purchaseUser", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_purchaseUser_product_productId",
+                        column: x => x.productId,
+                        principalTable: "product",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_purchaseUser_AspNetUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -204,6 +253,21 @@ namespace Infra.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_product_userId",
+                table: "product",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_purchaseUser_productId",
+                table: "purchaseUser",
+                column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_purchaseUser_userId",
+                table: "purchaseUser",
+                column: "userId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -224,10 +288,13 @@ namespace Infra.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "product");
+                name: "purchaseUser");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "product");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
