@@ -13,6 +13,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using sfm.Infra.Configuration;
+using Domain.Interfaces.Generics;
+using static Infra.Repository.Generics.GenericsRepository;
+using Domain.Interfaces.ProductInterface;
+using Infra.Repository.Repositories;
+using Application.Interfaces;
+using Application.OpenApp;
+using Domain.Interfaces.ServicesInterface;
+using Domain.Services;
 
 namespace Presentation
 {
@@ -35,6 +43,14 @@ namespace Presentation
                 .AddEntityFrameworkStores<ECommerceContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            /* Add dependencies injection */
+            services.AddSingleton(typeof(IGeneric<>), typeof(GenericRepository<>));
+            services.AddSingleton<IProduct, ProductRepository>();
+            services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<ProductAppInterface, ProductApp>();
+            /* END - Add dependencies injection */
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
