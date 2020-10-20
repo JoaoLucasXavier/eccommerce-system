@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace sfm.Infra.Configuration
 {
-    public class ECommerceContext : IdentityDbContext<ApplicationUser>
+    public class ECommerceContext : IdentityDbContext<IdentityUser>
     {
         public ECommerceContext(DbContextOptions<ECommerceContext> options) : base(options) { }
 

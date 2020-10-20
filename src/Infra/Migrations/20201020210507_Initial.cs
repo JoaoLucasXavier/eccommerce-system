@@ -40,16 +40,17 @@ namespace Infra.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
                     cpf = table.Column<string>(maxLength: 11, nullable: true),
-                    age = table.Column<int>(nullable: false),
+                    age = table.Column<int>(nullable: true),
                     name = table.Column<string>(maxLength: 100, nullable: true),
                     postalCode = table.Column<string>(maxLength: 8, nullable: true),
                     address = table.Column<string>(maxLength: 100, nullable: true),
                     complement = table.Column<string>(maxLength: 100, nullable: true),
                     cellPhone = table.Column<string>(maxLength: 20, nullable: true),
                     phone = table.Column<string>(maxLength: 20, nullable: true),
-                    state = table.Column<bool>(nullable: false),
-                    type = table.Column<int>(nullable: false)
+                    state = table.Column<bool>(nullable: true),
+                    type = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
