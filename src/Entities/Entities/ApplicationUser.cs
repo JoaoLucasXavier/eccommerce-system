@@ -52,6 +52,6 @@ namespace Entities
 
         [Column("type")]
         [Display(Name = "Tipo usuário")]
-        public UserTypeEnum Type { get; set; }
+        public UserTypeEnum? Type { get; set; }
     }
 }
