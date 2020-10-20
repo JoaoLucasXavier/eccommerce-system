@@ -49,6 +49,9 @@ namespace Presentation
             services.AddSingleton<IProduct, ProductRepository>();
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<ProductAppInterface, ProductApp>();
+
+            services.AddDbContext<RazorPagesMovieContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("RazorPagesMovieContext")));
             /* END - Add dependencies injection */
 
         }
