@@ -11,10 +11,6 @@ namespace Entities
         [Display(Name = "Código")]
         public Guid Id { get; set; }
 
-        [Column("name")]
-        [Display(Name = "Nome")]
-        public string Name { get; set; }
-
         public Base()
         {
             Id = Guid.NewGuid();
