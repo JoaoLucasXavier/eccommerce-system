@@ -21,6 +21,7 @@ using Application.Interfaces;
 using Application.OpenApp;
 using Domain.Interfaces.ServicesInterface;
 using Domain.Services;
+using Entities;
 
 namespace Presentation
 {
@@ -39,7 +40,7 @@ namespace Presentation
             services.AddDbContext<ECommerceContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ECommerceContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();

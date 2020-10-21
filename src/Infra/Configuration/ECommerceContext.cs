@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace sfm.Infra.Configuration
 {
-    public class ECommerceContext : IdentityDbContext<IdentityUser>
+    public class ECommerceContext : IdentityDbContext<ApplicationUser>
     {
         public ECommerceContext(DbContextOptions<ECommerceContext> options) : base(options) { }
 
@@ -22,7 +22,7 @@ namespace sfm.Infra.Configuration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Informa ao identity qual é a PK ao subscrever a entidade 'ApplicationUser'
-            modelBuilder.Entity<IdentityUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
             base.OnModelCreating(modelBuilder);
         }
 
