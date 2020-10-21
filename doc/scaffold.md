@@ -8,3 +8,8 @@
 - dotnet aspnet-codegenerator razorpage Edit Edit -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
 - dotnet aspnet-codegenerator razorpage Delete Delete -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
 
+
+# Identity
+
+- dotnet aspnet-codegenerator identity -h
+- dotnet aspnet-codegenerator identity -dc ECommerceContext
