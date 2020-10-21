@@ -10,7 +10,7 @@ using sfm.Infra.Configuration;
 namespace Infra.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    [Migration("20201021032750_Initial")]
+    [Migration("20201021034235_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
