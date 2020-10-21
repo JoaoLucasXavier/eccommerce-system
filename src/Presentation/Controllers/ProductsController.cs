@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Interfaces;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -12,16 +13,18 @@ namespace Presentation.Controllers
     public class ProductsController : Controller
     {
         public readonly ProductAppInterface _productAppInterface;
+        public readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductsController(ProductAppInterface productAppInterface)
+        public ProductsController(ProductAppInterface productAppInterface, UserManager<ApplicationUser> userManager)
         {
             _productAppInterface = productAppInterface;
+            _userManager = userManager;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _productAppInterface.List());
+            return View(await _productAppInterface.ListUserProducts(await getLoggedUserId()));
         }
 
         // GET: Products/Details/5
@@ -31,7 +34,7 @@ namespace Presentation.Controllers
         }
 
         // GET: Products/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -43,6 +46,7 @@ namespace Presentation.Controllers
         {
             try
             {
+                product.UserId = await getLoggedUserId();
                 await _productAppInterface.AddProduct(product);
                 if (product.Notifications.Any())
                 {
@@ -50,12 +54,12 @@ namespace Presentation.Controllers
                     {
                         ModelState.AddModelError(item.PropertyName, item.Message);
                     }
-                    return View("Edit", product);
+                    return View("Create", product);
                 }
             }
             catch
             {
-                return View("Edit", product);
+                return View("Create", product);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -111,6 +115,12 @@ namespace Presentation.Controllers
             {
                 return View();
             }
+        }
+
+        private async Task<string> getLoggedUserId()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return user.Id;
         }
     }
 }
