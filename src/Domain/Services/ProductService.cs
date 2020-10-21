@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Domain.Interfaces.ProductInterface;
 using Domain.Interfaces.ServicesInterface;
@@ -18,8 +19,11 @@ namespace Domain.Services
         {
             var validName = product.ValidateStringProperty(product.Name, "Name");
             var validValue = product.ValidateDecimalProperty(product.Value, "Value");
-            if (validName && validValue)
+            var validStockQuantity = product.ValidateIntegerProperty(product.StockQuantity, "StockQuantity");
+            if (validName && validValue && validStockQuantity)
             {
+                product.DateRegister = DateTime.Now;
+                product.ChangeDate = DateTime.Now;
                 product.State = true;
                 await _IProduct.Add(product);
             }
@@ -29,7 +33,12 @@ namespace Domain.Services
         {
             var validName = product.ValidateStringProperty(product.Name, "Name");
             var validValue = product.ValidateDecimalProperty(product.Value, "Value");
-            if (validName && validValue) await _IProduct.Update(product);
+            var validStockQuantity = product.ValidateIntegerProperty(product.StockQuantity, "StockQuantity");
+            if (validName && validValue && validStockQuantity)
+            {
+                product.ChangeDate = DateTime.Now;
+                await _IProduct.Update(product);
+            }
         }
     }
 }
