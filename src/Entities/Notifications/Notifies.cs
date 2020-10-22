@@ -15,7 +15,7 @@ namespace Entities.Notifications
 
         public Notifies()
         {
-            var notifications = new List<Notifies>();
+            Notifications = new List<Notifies>();
         }
 
         public bool ValidateStringProperty(string value, string propertyName)
