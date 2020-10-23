@@ -117,6 +117,21 @@ namespace Web.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("/api/listProductsWithStock")]
+        public async Task<JsonResult> ListProductsWithStock()
+        {
+            return Json(await _productAppInterface.ListProductsWithStock());
+        }
+
+        [AllowAnonymous]
+        [HttpPost("/api/addProductsToCart")]
+        public async Task AddProductsToCart(Guid productId, string productName, string purchaseAmount)
+        {
+            //
+            //
+        }
+
         private async Task<string> getLoggedUserId()
         {
             var user = await _userManager.GetUserAsync(User);

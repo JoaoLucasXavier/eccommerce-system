@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain.Interfaces.ProductInterface;
 using Entities;
@@ -22,6 +24,12 @@ namespace Infra.Repository.Repositories
         {
             using var db = new ECommerceContext(_optionsBuilder);
             return await db.Products.Where(p => p.UserId == userId).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<List<Product>> ProductList(Expression<Func<Product, bool>> expProduct)
+        {
+            using var db = new ECommerceContext(_optionsBuilder);
+            return await db.Products.Where(expProduct).AsNoTracking().ToListAsync();
         }
     }
 }

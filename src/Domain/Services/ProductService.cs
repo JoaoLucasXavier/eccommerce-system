@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain.Interfaces.ProductInterface;
 using Domain.Interfaces.ServicesInterface;
@@ -39,6 +41,11 @@ namespace Domain.Services
                 product.ChangeDate = DateTime.Now;
                 await _IProduct.Update(product);
             }
+        }
+
+        public async Task<List<Product>> ListProductsWithStock(Expression<Func<Product, bool>> expProduct)
+        {
+            return await _IProduct.ProductList(p => p.StockQuantity > 0);
         }
     }
 }
