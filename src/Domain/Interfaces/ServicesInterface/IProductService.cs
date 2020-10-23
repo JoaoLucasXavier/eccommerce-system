@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Entities;
 
@@ -10,6 +8,6 @@ namespace Domain.Interfaces.ServicesInterface
     {
         Task AddProduct(Product product);
         Task UpdateProduct(Product product);
-        Task<List<Product>> ListProductsWithStock(Expression<Func<Product, bool>> expProduct);
+        Task<List<Product>> ListProductsWithStock();
     }
 }

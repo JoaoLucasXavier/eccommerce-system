@@ -59,9 +59,9 @@ namespace Application.OpenApp
             return await _IProduct.ListUserProducts(userId);
         }
 
-        public Task<List<Product>> ListProductsWithStock()
+        public async Task<List<Product>> ListProductsWithStock()
         {
-            throw new NotImplementedException();
+            return await _IProductService.ListProductsWithStock();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Domain.Services
             }
         }
 
-        public async Task<List<Product>> ListProductsWithStock(Expression<Func<Product, bool>> expProduct)
+        public async Task<List<Product>> ListProductsWithStock()
         {
             return await _IProduct.ProductList(p => p.StockQuantity > 0);
         }
