@@ -84,6 +84,8 @@ namespace Web.Controllers
                     {
                         ModelState.AddModelError(item.PropertyName, item.Message);
                     }
+                    ViewBag.Alert = true;
+                    ViewBag.Message = "Verifique, ocorreu algum erro!";
                     return View("Edit", product);
                 }
             }
