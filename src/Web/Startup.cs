@@ -22,6 +22,7 @@ using Application.OpenApp;
 using Domain.Interfaces.ServicesInterface;
 using Domain.Services;
 using Entities;
+using Domain.Interfaces.PurchaseUserInterface;
 
 namespace Web
 {
@@ -48,13 +49,14 @@ namespace Web
             /* Add dependencies injection */
             services.AddSingleton(typeof(IGeneric<>), typeof(GenericRepository<>));
             services.AddSingleton<IProduct, ProductRepository>();
+            services.AddSingleton<IPurchaseUser, PurchaseUserRepository>();
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<ProductAppInterface, ProductApp>();
+            services.AddSingleton<PurchaseUserAppInterface, PurchaseUserApp>();
 
             services.AddDbContext<RazorPagesMovieContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("RazorPagesMovieContext")));
             /* END - Add dependencies injection */
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

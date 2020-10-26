@@ -13,3 +13,10 @@
 
 - dotnet aspnet-codegenerator identity -h
 - dotnet aspnet-codegenerator identity -dc ECommerceContext
+
+
+# Purchase User
+
+- dotnet aspnet-codegenerator controller -name UserPurchasesController --relativeFolderPath Controllers
+
+
