@@ -14,10 +14,11 @@ SaleObject.AddProductToCart = function (productId) {
             "productId": productId, "productName": name, "purchaseAmount": quantity
         },
         success: function (data) {
-            if(data.success) {
-                alert("oK")
+            // alertObject.ScreenAlert() reference: wwwroot\js\site.js
+            if (data.success) {
+                alertObject.ScreenAlert(1, "Produto adicionado ao carrinho!");
             } else {
-                alert("Usuário não logado")
+                alertObject.ScreenAlert(2, "Necessário efetuar o login para compras!");
             }
         }
     });
@@ -41,7 +42,7 @@ SaleObject.ListProductsWithStock = function () {
                 htmlContent += "<label id='" + nameId + "'> Produto: " + productEntity.name + "</label><br/>";
                 htmlContent += "<label> Valor: " + productEntity.value + "</label><br/>";
                 htmlContent += "Quantidade: <input type='number' id='" + quantityId + "' value='1' />";
-                htmlContent += "<input type='button' onclick='SaleObject.AddProductToCart(\""+productEntity.id+"\")' value='Comprar'/><br/>";
+                htmlContent += "<input type='button' onclick='SaleObject.AddProductToCart(\"" + productEntity.id + "\")' value='Comprar'/><br/>";
                 htmlContent += "</div>";
             });
             $("#divForSale").html(htmlContent);
