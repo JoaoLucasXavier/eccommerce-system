@@ -50,6 +50,13 @@ SaleObject.ListProductsWithStock = function () {
     });
 }
 
+SaleObject.LoadCartQuantity = function () {
+    $("#amountCart").text("(10)");
+    setTimeout(SaleObject.LoadCartQuantity, 10000);
+}
+
 $(function () {
     SaleObject.ListProductsWithStock();
+    SaleObject.LoadCartQuantity();
 });
+
