@@ -52,6 +52,18 @@ SaleObject.ListProductsWithStock = function () {
 
 SaleObject.LoadCartQuantity = function () {
     $("#amountCart").text("(0)");
+    $.ajax({
+        type: "GET",
+        url: "/api/UserCartProductQuantity",
+        dataType: "JSON",
+        cache: false,
+        async: true,
+        success: function (data) {
+            if (data.success) {
+                $("#amountCart").text("("+data.quantity+")");
+            }
+        }
+    });
     setTimeout(SaleObject.LoadCartQuantity, 10000);
 }
 

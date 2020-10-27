@@ -41,5 +41,18 @@ namespace Web.Controllers
             }
             return Json(new { success = false });
         }
+
+        [HttpGet("/api/UserCartProductQuantity")]
+        public async Task<JsonResult> UserCartProductQuantity()
+        {
+            var loggedUser = await _UserManager.GetUserAsync(User);
+            var quantity = 0;
+            if (loggedUser != null)
+            {
+                quantity = await _PurchaseUserAppInterface.UserCartProductQuantity(loggedUser.Id);
+                return Json(new { success = true, quantity = quantity });
+            }
+            return Json(new { success = false, quantity = quantity });
+        }
     }
 }

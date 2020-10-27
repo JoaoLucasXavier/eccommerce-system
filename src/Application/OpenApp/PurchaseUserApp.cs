@@ -40,5 +40,10 @@ namespace Application.OpenApp
         {
             await _IPurchaseUser.Update(Object);
         }
+
+        public async Task<int> UserCartProductQuantity(string userId)
+        {
+            return await _IPurchaseUser.UserCartProductQuantity(userId);
+        }
     }
 }
