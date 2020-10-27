@@ -7,7 +7,8 @@
 - dotnet aspnet-codegenerator razorpage Create Create -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
 - dotnet aspnet-codegenerator razorpage Edit Edit -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
 - dotnet aspnet-codegenerator razorpage Delete Delete -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
-
+- dotnet aspnet-codegenerator razorpage ListProductsUserCart List -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
+- dotnet aspnet-codegenerator razorpage RemoveCart Delete -m Entities.Product -dc ECommerceContext -outDir Views/Products --useDefaultLayout
 
 # Identity
 
@@ -18,5 +19,6 @@
 # Purchase User
 
 - dotnet aspnet-codegenerator controller -name UserPurchasesController --relativeFolderPath Controllers
+
 
 

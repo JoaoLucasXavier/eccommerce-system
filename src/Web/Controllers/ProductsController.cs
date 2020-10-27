@@ -13,11 +13,16 @@ namespace Web.Controllers
     public class ProductsController : Controller
     {
         public readonly ProductAppInterface _productAppInterface;
+        public readonly PurchaseUserAppInterface _PurchaseUserAppInterface;
         public readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductsController(ProductAppInterface productAppInterface, UserManager<ApplicationUser> userManager)
+        public ProductsController(
+            ProductAppInterface productAppInterface,
+            PurchaseUserAppInterface purchaseUserAppInterface,
+            UserManager<ApplicationUser> userManager)
         {
             _productAppInterface = productAppInterface;
+            _PurchaseUserAppInterface = purchaseUserAppInterface;
             _userManager = userManager;
         }
 
@@ -124,6 +129,33 @@ namespace Web.Controllers
         public async Task<JsonResult> ListProductsWithStock()
         {
             return Json(await _productAppInterface.ListProductsWithStock());
+        }
+
+        public async Task<ActionResult> ListProductsUserCart()
+        {
+            var loggedUserId = await getLoggedUserId();
+            return View(await _productAppInterface.ListProductsUserCart(loggedUserId));
+        }
+
+        public async Task<IActionResult> RemoveCart(Guid id)
+        {
+            return View(await _productAppInterface.GetProductCart(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveCart(Guid id, Product product)
+        {
+            try
+            {
+                var purchaseUserToDelete = await _PurchaseUserAppInterface.GetEntityById(id);
+                await _PurchaseUserAppInterface.Delete(purchaseUserToDelete);
+                return RedirectToAction(nameof(ListProductsUserCart));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         private async Task<string> getLoggedUserId()
