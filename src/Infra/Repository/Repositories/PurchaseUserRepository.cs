@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Domain.Interfaces.PurchaseUserInterface;
 using Entities;
+using Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using sfm.Infra.Configuration;
 using static Infra.Repository.Generics.GenericsRepository;
@@ -19,7 +20,7 @@ namespace Infra.Repository.Repositories
         public async Task<int> UserCartProductQuantity(string userId)
         {
             using var db = new ECommerceContext(_OptionsBuilder);
-            return await db.PurchasesUser.CountAsync(c => c.UserId == userId);
+            return await db.PurchasesUser.CountAsync(c => c.UserId.Equals(userId) && c.PurchaseStatus == PurchaseStatusEmum.InCart);
         }
     }
 }

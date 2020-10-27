@@ -47,6 +47,12 @@ namespace Entities
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
 
+        [NotMapped]
+        public Guid ProductCartId { get; set; }
+
+        [NotMapped]
+        public int PurchaseQuantity { get; set; }
+
         public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

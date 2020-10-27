@@ -63,5 +63,15 @@ namespace Application.OpenApp
         {
             return await _IProductService.ListProductsWithStock();
         }
+
+        public async Task<List<Product>> ListProductsUserCart(string userId)
+        {
+            return await _IProduct.ListProductsUserCart(userId);
+        }
+
+        public async Task<Product> GetProductCart(Guid productCartId)
+        {
+            return await _IProduct.GetProductCart(productCartId);
+        }
     }
 }
