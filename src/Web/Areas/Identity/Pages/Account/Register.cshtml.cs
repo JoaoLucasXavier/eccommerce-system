@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +5,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Entities;
+using Entities.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -61,6 +61,41 @@ namespace Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "CPF")]
+            [MaxLength(11)]
+            public string Cpf { get; set; }
+
+            [Display(Name = "Idade")]
+            public int Age { get; set; }
+
+            [Required]
+            [Display(Name = "Nome")]
+            [MaxLength(100)]
+            public string Name { get; set; }
+
+            [Required]
+            [Display(Name = "CEP")]
+            [MaxLength(8)]
+            public string PostalCode { get; set; }
+
+            [Required]
+            [Display(Name = "Endereço")]
+            [MaxLength(100)]
+            public string Address { get; set; }
+
+            [Display(Name = "Complemento")]
+            [MaxLength(100)]
+            public string Complement { get; set; }
+
+            [Display(Name = "Celular")]
+            [MaxLength(20)]
+            public string CellPhone { get; set; }
+
+            [Display(Name = "Telefone")]
+            [MaxLength(20)]
+            public string Phone { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +110,21 @@ namespace Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Cpf = Input.Cpf,
+                    Age = Input.Age,
+                    Name = Input.Name,
+                    PostalCode = Input.PostalCode,
+                    Address = Input.Address,
+                    Complement = Input.Complement,
+                    CellPhone = Input.CellPhone,
+                    Phone = Input.Phone,
+                    State = true,
+                    Type = UserTypeEnum.Common
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
