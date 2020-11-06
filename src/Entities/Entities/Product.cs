@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace Entities
 {
@@ -52,6 +53,12 @@ namespace Entities
 
         [NotMapped]
         public int PurchaseQuantity { get; set; }
+
+        [NotMapped]
+        public IFormFile Image { get; set; }
+
+        [Column("url")]
+        public string Url { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

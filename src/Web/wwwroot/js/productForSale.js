@@ -40,8 +40,11 @@ SaleObject.ListProductsWithStock = function () {
                 var nameId = "name_" + productEntity.id;
                 var quantityId = "qtt_" + productEntity.id;
                 htmlContent += "<label id='" + nameId + "'> Produto: " + productEntity.name + "</label><br/>";
-                htmlContent += "<label> Valor: " + productEntity.value + "</label><br/>";
-                htmlContent += "Quantidade: <input type='number' id='" + quantityId + "' value='1' />";
+                if (productEntity.url != null && productEntity.url != "" && productEntity.url != undefined) {
+                    htmlContent += "<img src='"+productEntity.url+"' width='200' height='100'/>";
+                }
+                htmlContent += "<br><label> Valor: " + productEntity.value + "</label><br/>";
+                htmlContent += "Quantidade: <input type='number' id='" + quantityId + "' value='1'/>";
                 htmlContent += "<input type='button' onclick='SaleObject.AddProductToCart(\"" + productEntity.id + "\")' value='Comprar'/><br/>";
                 htmlContent += "</div>";
             });
@@ -60,7 +63,7 @@ SaleObject.LoadCartQuantity = function () {
         async: true,
         success: function (data) {
             if (data.success) {
-                $("#amountCart").text("("+data.quantity+")");
+                $("#amountCart").text("(" + data.quantity + ")");
             }
         }
     });

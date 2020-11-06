@@ -47,7 +47,8 @@ namespace Infra.Repository.Repositories
                     Observation = p.Observation,
                     Value = p.Value,
                     PurchaseQuantity = pu.PurchaseAmount,
-                    ProductCartId = pu.Id
+                    ProductCartId = pu.Id,
+                    Url = p.Url
                 }).AsNoTracking().ToListAsync();
         }
 
@@ -65,7 +66,8 @@ namespace Infra.Repository.Repositories
                     Observation = p.Observation,
                     Value = p.Value,
                     PurchaseQuantity = pu.PurchaseAmount,
-                    ProductCartId = pu.Id
+                    ProductCartId = pu.Id,
+                    Url = p.Url
                 }).AsNoTracking().FirstOrDefaultAsync();
         }
     }

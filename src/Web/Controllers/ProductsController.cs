@@ -1,9 +1,14 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Security;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,15 +20,18 @@ namespace Web.Controllers
         public readonly ProductAppInterface _productAppInterface;
         public readonly PurchaseUserAppInterface _PurchaseUserAppInterface;
         public readonly UserManager<ApplicationUser> _userManager;
+        private IWebHostEnvironment _environment;
 
         public ProductsController(
             ProductAppInterface productAppInterface,
             PurchaseUserAppInterface purchaseUserAppInterface,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IWebHostEnvironment environment)
         {
             _productAppInterface = productAppInterface;
             _PurchaseUserAppInterface = purchaseUserAppInterface;
             _userManager = userManager;
+            _environment = environment;
         }
 
         // GET: Products
@@ -52,6 +60,7 @@ namespace Web.Controllers
             try
             {
                 product.UserId = await getLoggedUserId();
+                product.Url = await UploadProductsImage(product);
                 await _productAppInterface.AddProduct(product);
                 if (product.Notifications.Any())
                 {
@@ -155,6 +164,54 @@ namespace Web.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        private async Task<string> UploadProductsImage(Product screenProduct)
+        {
+            try
+            {
+                var imgPrefix = Guid.NewGuid() + "_";
+                var url = "~/img/productImage/" + imgPrefix + screenProduct.Image.FileName;
+
+                if (screenProduct.Image.Length <= 0) throw new System.ArgumentException("File not found.");
+                var path = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot/img/productImage", imgPrefix + screenProduct.Image.FileName);
+                if (System.IO.File.Exists(path)) throw new System.ArgumentException("A file with that name already exists.");
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await screenProduct.Image.CopyToAsync(stream);
+                }
+                return url;
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task SaveProductsImage(Product screenProduct)
+        {
+            try
+            {
+                var product = await _productAppInterface.GetEntityById(screenProduct.Id);
+                if (screenProduct.Image != null)
+                {
+                    var webRoot = _environment.WebRootPath;
+                    var permissionSet = new PermissionSet(PermissionState.Unrestricted);
+                    var writePermission = new FileIOPermission(FileIOPermissionAccess.Append, string.Concat(webRoot, "/productImage"));
+                    permissionSet.AddPermission(writePermission);
+                    var extension = System.IO.Path.GetExtension(screenProduct.Image.FileName);
+                    var fileName = string.Concat(product.Id.ToString(), extension);
+                    var saveFileDirectory = string.Concat(webRoot, "\\productImage\\", fileName);
+                    screenProduct.Image.CopyTo(new FileStream(saveFileDirectory, FileMode.Create));
+                    product.Url = string.Concat("https://localhost:5001", "/productImage/", fileName);
+                    await _productAppInterface.UpdateProduct(product);
+                }
+            }
+            catch (System.Exception e)
+            {
+                throw e;
             }
         }
 
