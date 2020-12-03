@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Entities.Enums;
@@ -15,6 +16,21 @@ namespace Entities
         [Column("purchaseAmount")]
         [Display(Name = "Quantidade compra")]
         public int PurchaseAmount { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Quantidade total")]
+        public int QuantityProducts { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Valor total")]
+        public decimal TotalValue { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Endereço entrega")]
+        public string FullAddress { get; set; }
+
+        [NotMapped]
+        public List<Product> ProductList { get; set; }
 
         [Column("productId")]
         [Display(Name = "Produto")]

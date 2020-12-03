@@ -172,7 +172,7 @@ namespace Web.Controllers
             try
             {
                 var imgPrefix = Guid.NewGuid() + "_";
-                var url = "~/img/productImage/" + imgPrefix + screenProduct.Image.FileName;
+                var url = "/img/productImage/" + imgPrefix + screenProduct.Image.FileName;
 
                 if (screenProduct.Image.Length <= 0) throw new System.ArgumentException("File not found.");
                 var path = Path.Combine(Directory.GetCurrentDirectory(),

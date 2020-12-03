@@ -41,7 +41,7 @@ SaleObject.ListProductsWithStock = function () {
                 var quantityId = "qtt_" + productEntity.id;
                 htmlContent += "<label id='" + nameId + "'> Produto: " + productEntity.name + "</label><br/>";
                 if (productEntity.url != null && productEntity.url != "" && productEntity.url != undefined) {
-                    htmlContent += "<img src='"+productEntity.url+"' width='200' height='100'/>";
+                    htmlContent += "<img src='"+productEntity.url+"' width='150' height='150'/>";
                 }
                 htmlContent += "<br><label> Valor: " + productEntity.value + "</label><br/>";
                 htmlContent += "Quantidade: <input type='number' id='" + quantityId + "' value='1'/>";
